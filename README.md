@@ -4,99 +4,101 @@
 > Repository ini saat ini berada di Fase Proposal Dicoding AI Impact Challenge 2026.  
 > Implementasi kode (model, API Azure Functions, dan dashboard Azure Static Web Apps) masih dalam pengembangan aktif dan belum lengkap.
 
-XGBoost-based flood risk prediction for 15 pilot kelurahan in South and East Jakarta. Outputs calibrated flood probabilities at 6, 12, and 24-hour horizons with SHAP explainability for BPBD operators.
+Sistem prediksi risiko banjir berbasis XGBoost untuk 15 kelurahan pilot di Jakarta Selatan dan Timur. Output berupa probabilitas banjir terkalibrasi pada horizon 6, 12, dan 24 jam dengan SHAP explainability untuk operator BPBD.
 
 ---
 
-## Overview
+## Latar Belakang
 
-Jakarta experiences severe annual flooding driven by monsoon rainfall, tidal backflow, and limited drainage capacity in low-lying urban areas. This MVP targets the Ciliwung corridor (South/East Jakarta) where flood risk is highest and telemetry data coverage is most reliable.
+Jakarta mengalami banjir parah setiap tahun yang dipicu oleh curah hujan musiman, banjir kiriman dari hulu Ciliwung (Bogor), dan kapasitas drainase terbatas di area dataran rendah. MVP ini fokus pada koridor Ciliwung (Jakarta Selatan/Timur) dimana risiko banjir tertinggi dan cakupan data telemetri paling reliable.
 
-**Target:** F1-score ≥ 0.65 on 2024 hold-out validation  
-**Training period:** 2018–2023 (time-based split, no leakage)  
-**Scope:** 15 pilot kelurahan across Tebet, Pancoran, Kramat Jati, Jatinegara, Pasar Minggu, and Makasar
+**Target:** F1-score ≥ 0.65 pada validation hold-out 2024
+**Periode training:** 2018–2023 (time-based split, tanpa data leakage)
+**Cakupan:** 15 kelurahan pilot di Tebet, Pancoran, Kramat Jati, Jatinegara, Pasar Minggu, dan Makasar
 
-### Risk levels
+### Tingkat Risiko
 
-| Level | Probability | Recommended action |
+| Level | Probabilitas | Tindakan yang Direkomendasikan |
 |---|---|---|
-| **Aman** | < 20% | Normal monitoring |
-| **Waspada** | 20–50% | Heightened watch, pre-position teams |
-| **Siaga** | 50–80% | Deploy field teams, open evacuation centres |
-| **Bahaya** | ≥ 80% | Immediate evacuation |
+| **Aman** | < 20% | Monitoring normal |
+| **Waspada** | 20–50% | Peningkatan kewaspadaan, pre-position tim |
+| **Siaga** | 50–80% | Deploy tim lapangan, buka posko evakuasi |
+| **Awas** | ≥ 80% | Evakuasi segera |
 
 ---
 
-## Architecture
+## Arsitektur Sistem
+
+### Struktur Repositori (saat ini)
 
 ```
-flood_risk_mvp/
+jakarta-flood-risk/
 ├── flood_risk/
-│   ├── config.py                  # kelurahan coords, thresholds, train/val split
+│   ├── config.py                  # koordinat kelurahan, threshold, train/val split
 │   ├── data/
-│   │   ├── bmkg.py                # BMKG hourly rainfall API client
-│   │   ├── water_level.py         # Jakarta Open Data pintu air loader + label builder
-│   │   ├── dem.py                 # DEMNAS/SRTM static terrain feature extractor
-│   │   └── pipeline.py            # master pipeline → model-ready DataFrames
+│   │   ├── bmkg.py                # client API curah hujan BMKG (hourly)
+│   │   ├── water_level.py         # loader pintu air Jakarta Open Data + label builder
+│   │   ├── dem.py                 # ekstraktor fitur terrain DEMNAS/SRTM
+│   │   └── pipeline.py            # pipeline master → DataFrame siap-model
 │   ├── models/
 │   │   ├── xgb_flood.py           # FloodRiskModel + MultiHorizonFloodModel
-│   │   └── tuner.py               # Optuna HPO (50 trials per horizon)
+│   │   └── tuner.py               # Optuna HPO (50 trial per horizon)
 │   └── evaluation/
 │       ├── metrics.py             # F1, ROC-AUC, PR-AUC, threshold calibration
 │       └── explainability.py      # SHAP TreeExplainer: global + local + alert narrative
-├── train.py                       # training entrypoint
-├── predict.py                     # inference CLI
+├── train.py                       # entrypoint training
+├── predict.py                     # CLI inference
 └── requirements.txt
 ```
-## Azure Architecture (Draft)
 
-This project is designed to run end-to-end on Microsoft Azure (currently in draft, WIP for proposal phase):
+### Rencana Arsitektur Azure (Fase Implementasi)
 
-- **Azure Functions (HTTP trigger)**  
-  - Serves a REST API endpoint `/api/predict` that loads the trained XGBoost models (`flood_xgb_{6,12,24}h.joblib`) and returns calibrated flood probabilities for a given kelurahan and timestamp.  
-  - Code scaffold lives in `azure-function/` (binding configuration and handler are under active development).
+Sistem dirancang untuk berjalan end-to-end di Microsoft Azure. Komponen-komponen berikut adalah bagian dari roadmap implementasi setelah fase proposal:
 
-- **Azure Static Web Apps**  
-  - Hosts a static dashboard (React/JS) located in `static-web-app/`.  
-  - The dashboard calls the Azure Functions API to display 6/12/24-hour flood risk levels (Aman, Waspada, Siaga, Bahaya) for the 15 pilot kelurahan.  
-  - Deployment target: Azure Static Web Apps Free tier with GitHub Actions for CI/CD.
+- **Azure Functions (HTTP trigger)** — REST API endpoint `/api/predict` yang me-load model XGBoost terlatih (`flood_xgb_{6,12,24}h.joblib`) dan mengembalikan probabilitas banjir terkalibrasi untuk kelurahan dan timestamp tertentu.
 
-- **(Planned) Azure Storage**  
-  - Optional blob storage for archiving daily prediction outputs and logs for later analysis and model monitoring.
+- **Azure Static Web Apps** — Dashboard statis berbasis HTML/JavaScript yang memanggil Azure Functions API untuk menampilkan tingkat risiko banjir 6/12/24 jam (Aman, Waspada, Siaga, Awas) untuk 15 kelurahan pilot. Target deployment: Static Web Apps Free tier dengan GitHub Actions untuk CI/CD.
 
-> During the Dicoding AI Impact Challenge 2026 proposal phase, the Azure deployment is being implemented and iterated. Public URLs for the Static Web App and Function API will be added here once stable.
+- **Azure OpenAI Service** — Generative advisory multi-audience yang menerjemahkan output prediksi menjadi pesan kontekstual untuk warga (bahasa sederhana), BPBD (terminologi operasional), dan perencana kota (analisis struktural).
+
+- **Azure Maps** — Visualisasi peta interaktif dengan choropleth risiko banjir per kelurahan.
+
+- **(Direncanakan) Azure Storage** — Blob storage untuk arsip output prediksi harian dan log untuk monitoring model.
+
+> URL publik untuk Static Web App dan Function API akan ditambahkan ke README ini setelah deployment Phase 1 stabil.
+
 ---
 
-### Data sources
+## Sumber Data
 
-| Source | Data | Frequency | Coverage |
+| Sumber | Data | Frekuensi | Cakupan |
 |---|---|---|---|
-| [BMKG](https://data.bmkg.go.id) | Rainfall (mm) | Hourly | 3 stations near pilot area |
-| [Jakarta Open Data](https://data.jakarta.go.id) | Pintu air water level (cm) | Hourly | 5 floodgates: Manggarai, Karet, Kampung Melayu, Rawajati, Cawang |
-| DEMNAS / SRTM | Elevation, slope, TWI, flow accumulation | Static | Per kelurahan centroid |
+| [BMKG](https://data.bmkg.go.id) | Curah hujan (mm) | Per jam | 3 stasiun di sekitar area pilot |
+| [Jakarta Open Data](https://data.jakarta.go.id) | Tinggi muka air pintu air (cm) | Per jam | 5 pintu air: Manggarai, Karet, Kampung Melayu, Rawajati, Cawang |
+| DEMNAS / SRTM | Elevasi, slope, TWI, flow accumulation | Statis | Per centroid kelurahan |
 
-### Feature groups (~50 features per row)
+### Kelompok Fitur (~50 fitur per row)
 
-| Group | Features |
+| Kelompok | Fitur |
 |---|---|
-| **Rainfall** | Rolling sums at 1/3/6/12/24/48/72h, station max, heavy/extreme flags, antecedent moisture proxy |
-| **Water level** | Raw levels, hourly delta, lag 1–24h, rolling max/trend, hours above warning threshold |
-| **DEM (static)** | Elevation (m), slope (°), topographic wetness index, distance to river, log flow accumulation |
-| **Calendar** | Hour/month sin–cos encoding, wet season flag, peak flood month (Jan–Feb), storm hour (17–21h) |
+| **Curah Hujan** | Rolling sum pada window 1/3/6/12/24/48/72 jam, max antar stasiun, flag heavy/extreme, antecedent moisture proxy |
+| **Tinggi Muka Air** | Level mentah, delta per jam, lag 1–24h, rolling max/trend, jam di atas warning threshold |
+| **DEM (statis)** | Elevasi (m), slope (°), topographic wetness index, jarak ke sungai, log flow accumulation |
+| **Kalender** | Sin–cos encoding jam/bulan, flag musim hujan, bulan puncak banjir (Jan–Feb), jam puncak storm (17–21) |
 
 ### Labelling
 
-`flood_Nh = 1` if any pintu air station reaches ≥ 750 cm (Siaga 2 / Manggarai alert level) within the next N hours. Max-pooled across stations so a single exceedance anywhere in the network triggers the label.
+`flood_Nh = 1` jika ada satu pintu air mencapai ≥ 750 cm (Siaga 2 / level alert Manggarai) dalam N jam ke depan. Max-pooled antar stasiun sehingga satu exceedance dimanapun di network akan trigger label.
 
 ### Model
 
-One `XGBClassifier` per horizon. Class imbalance (flood events ≈ 2–8% of hours) is handled via `scale_pos_weight` + `compute_sample_weight("balanced")`. Post-training threshold sweep maximises F1 under a minimum 70% recall constraint — catching real floods takes priority over false-alarm reduction.
+Satu `XGBClassifier` per horizon. Class imbalance (event banjir ≈ 2–8% dari total jam) ditangani via `scale_pos_weight` + `compute_sample_weight("balanced")`. Threshold sweep post-training memaksimalkan F1 dengan constraint minimum recall 70% — menangkap banjir sungguhan diprioritaskan di atas pengurangan false alarm.
 
 ---
 
-## Pilot Kelurahan
+## Kelurahan Pilot
 
-| Kelurahan | Kecamatan | Elevation |
+| Kelurahan | Kecamatan | Elevasi |
 |---|---|---|
 | Bidara Cina | Jatinegara | 4.1 m |
 | Kampung Melayu | Jatinegara | 4.5 m |
@@ -107,12 +109,12 @@ One `XGBClassifier` per horizon. Class imbalance (flood events ≈ 2–8% of hou
 | Duren Tiga | Pancoran | 6.5 m |
 | Cawang | Kramat Jati | 6.8 m |
 | Balekambang | Kramat Jati | 7.2 m |
+| Batu Ampar | Kramat Jati | 7.5 m |
 | Cililitan | Kramat Jati | 7.8 m |
 | Cipinang Melayu | Makasar | 8.4 m |
 | Pejaten Timur | Pasar Minggu | 9.1 m |
 | Halim Perdanakusuma | Makasar | 9.5 m |
 | Ragunan | Pasar Minggu | 12.3 m |
-| Batu Ampar | Kramat Jati | 7.5 m |
 
 ---
 
@@ -124,47 +126,47 @@ cd jakarta-flood-risk
 pip install -r requirements.txt
 ```
 
-Python 3.11+ recommended.
+Direkomendasikan Python 3.11+.
 
 ---
 
-## Usage
+## Penggunaan
 
-### Train
+### Training Model
 
 ```bash
-# Full training run using synthetic data (no credentials needed)
+# Training run lengkap dengan synthetic data (tanpa kredensial API)
 python train.py
 
-# With Optuna hyperparameter optimisation (50 trials per horizon)
+# Dengan Optuna hyperparameter optimization (50 trial per horizon)
 python train.py --tune --trials 50
 
-# Generate SHAP summary plots and importance CSVs
+# Generate plot SHAP summary dan CSV importance
 python train.py --shap
 
-# Shorter history (faster for dev)
+# History lebih pendek (lebih cepat untuk development)
 python train.py --start 2020-01-01
 ```
 
-Outputs:
-- `models/flood_xgb_{6,12,24}h.joblib` — trained models
-- `reports/validation_metrics.csv` — per-horizon F1, ROC-AUC, PR-AUC
-- `reports/shap/` — SHAP plots and importance CSVs (if `--shap`)
+Output:
+- `models/flood_xgb_{6,12,24}h.joblib` — model terlatih
+- `reports/validation_metrics.csv` — F1, ROC-AUC, PR-AUC per horizon
+- `reports/shap/` — plot SHAP dan CSV importance (jika `--shap`)
 
-### Predict
+### Inference
 
 ```bash
-# All 15 kelurahan, latest available data
+# Semua 15 kelurahan, data terbaru
 python predict.py --all
 
-# Single kelurahan
+# Satu kelurahan
 python predict.py --kelurahan "Kampung Melayu"
 
-# Specific timestamp
+# Timestamp spesifik
 python predict.py --kelurahan "Bidara Cina" --timestamp "2024-02-15 18:00"
 ```
 
-Sample output:
+Contoh output:
 ```
 ==================================================
 Kelurahan: Kampung Melayu | Time: 2024-02-15 18:00
@@ -175,57 +177,58 @@ Kelurahan: Kampung Melayu | Time: 2024-02-15 18:00
 
 ---
 
-## Wiring Real Data
+## Integrasi Data Riil
 
-Both data loaders fall back to statistically-plausible synthetic stubs when the API is unreachable, so the full pipeline runs without credentials during development.
+Kedua loader data memiliki fallback ke synthetic stub yang statistically plausible saat API tidak dapat dijangkau, sehingga pipeline lengkap dapat dijalankan tanpa kredensial selama development.
 
-**BMKG rainfall**: Replace `_api_fetch` in `flood_risk/data/bmkg.py` with your BMKG FTP or API credentials. BMKG provides historical hourly data via their Climate Data Portal or upon institutional request.
+**Curah hujan BMKG**: Ganti `_api_fetch` di `flood_risk/data/bmkg.py` dengan kredensial BMKG FTP atau API. BMKG menyediakan data historis per jam via Climate Data Portal mereka atau atas permintaan institusional.
 
-**Jakarta Open Data water levels**: Register at [data.jakarta.go.id](https://data.jakarta.go.id) and update `_RESOURCE_IDS` in `flood_risk/data/water_level.py` with the correct Socrata resource IDs for each pintu air station.
+**Tinggi muka air Jakarta Open Data**: Daftar di [data.jakarta.go.id](https://data.jakarta.go.id) dan update `_RESOURCE_IDS` di `flood_risk/data/water_level.py` dengan resource ID Socrata yang sesuai untuk setiap stasiun pintu air.
 
-**DEM**: Download DEMNAS tiles from [tanahair.indonesia.go.id](https://tanahair.indonesia.go.id) (8 m resolution) or use SRTM 30 m as fallback. Pass the GeoTIFF path to `DEMFeatureExtractor(dem_path=...)`.
+**DEM**: Download tile DEMNAS dari [tanahair.indonesia.go.id](https://tanahair.indonesia.go.id) (resolusi 8 m) atau gunakan SRTM 30 m sebagai fallback. Pass path GeoTIFF ke `DEMFeatureExtractor(dem_path=...)`.
 
 ---
 
 ## SHAP Explainability
 
-Every prediction can be explained at the feature level. The `alert_narrative()` method generates Indonesian-language text for BPBD operators:
+Setiap prediksi dapat dijelaskan pada level fitur. Method `alert_narrative()` menghasilkan teks bahasa Indonesia untuk operator BPBD:
 
 ```
 [2024-02-15 18:00] PERINGATAN BANJIR — Level: Siaga
 Probabilitas: 62.3% dalam 6 jam ke depan
 Faktor utama:
-  • rain sum 6h: 48.2mm (↑ risk)
-  • wl max cm: 712.0cm (↑ risk)
-  • antecedent rain 72h: 183.4mm (↑ risk)
+  • rain sum 6h: 48.2mm (↑ risiko)
+  • wl max cm: 712.0cm (↑ risiko)
+  • antecedent rain 72h: 183.4mm (↑ risiko)
 ```
 
-Global feature importance and waterfall plots are saved to `reports/shap/` during training.
+Global feature importance dan waterfall plot disimpan ke `reports/shap/` selama training.
 
 ---
 
-## Evaluation
+## Evaluasi
 
-Validation uses a strict time-based split: train on 2018–2023, validate on 2024. No shuffling, no cross-contamination.
+Validasi menggunakan time-based split yang ketat: training pada 2018–2023, validasi pada 2024. Tanpa shuffling, tanpa kontaminasi silang.
 
-Key metrics tracked:
-- **F1** (primary target: ≥ 0.65)
-- **ROC-AUC** and **PR-AUC** (imbalanced-class safe)
-- **Recall** (miss rate — safety-critical; floor at 70%)
-- **False alarm rate** (operator trust)
+Metrik utama yang dilacak:
+- **F1** (target utama: ≥ 0.65)
+- **ROC-AUC** dan **PR-AUC** (aman untuk class imbalanced)
+- **Recall** (miss rate — kritikal keselamatan; floor 70%)
+- **False alarm rate** (kepercayaan operator)
 
-The threshold calibration step (`_calibrate_threshold`) sweeps the decision boundary on the validation set and picks the value that maximises F1, which in practice pushes recall higher than a naive 0.5 cutoff.
+Step kalibrasi threshold (`_calibrate_threshold`) melakukan sweep decision boundary pada validation set dan memilih value yang memaksimalkan F1, yang dalam praktiknya mendorong recall lebih tinggi dari cutoff naif 0.5.
 
 ---
 
-## Project Status
+## Status Pengembangan
 
-This repository is currently in **Proposal Phase** for the Dicoding AI Impact Challenge 2026:
+Repositori ini saat ini berada dalam **Fase Proposal** untuk Dicoding AI Impact Challenge 2026:
 
-- Core Python package (`flood_risk/`) for data processing and model training is in early MVP stage.  
-- Azure Functions API (`azure-function/`) and Static Web App dashboard (`static-web-app/`) are under active development and not feature-complete.  
-- Synthetic data stubs are used by default so the pipeline can be executed without access to BMKG / Jakarta Open Data credentials.  
-- Model performance targets and evaluation protocol are defined, but final 2018–2024 retraining and metric reporting for all horizons are still in progress.
+- Core Python package (`flood_risk/`) untuk data processing dan model training berada pada tahap MVP awal
+- Azure Functions API dan dashboard Static Web App tertulis dalam roadmap arsitektur dan akan diimplementasikan pada fase setelah seleksi proposal
+- Synthetic data stub digunakan secara default sehingga pipeline dapat dieksekusi tanpa akses kredensial BMKG / Jakarta Open Data
+- Target performa model dan protokol evaluasi sudah didefinisikan, namun retraining final 2018–2024 dan pelaporan metrik untuk semua horizon masih dalam proses
 
-Feedback and issue reports are welcome while the implementation is being completed during the competition timeline.
+Feedback dan issue report dipersilakan selama implementasi diselesaikan dalam timeline kompetisi.
 
+---
