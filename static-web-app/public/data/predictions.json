@@ -1,0 +1,306 @@
+{
+  "generated_at": "2026-04-28T18:00:00Z",
+  "data_source": "demo",
+  "kelurahan": [
+    {
+      "name": "Kampung Melayu",
+      "kecamatan": "Jatinegara",
+      "lat": -6.2244,
+      "lon": 106.8650,
+      "elevation_m": 4.5,
+      "population": 28500,
+      "predictions": {
+        "6h": {"probability": 0.82, "risk_level": "Awas"},
+        "12h": {"probability": 0.78, "risk_level": "Siaga"},
+        "24h": {"probability": 0.71, "risk_level": "Siaga"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.28, "direction": "up"},
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.21, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.62, "importance": 0.15, "direction": "up"},
+        {"feature": "rainfall_6h_intensity_max", "value": 24.1, "importance": 0.12, "direction": "up"},
+        {"feature": "katulangan_water_level_lag_6h", "value": 198.0, "importance": 0.09, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Bidara Cina",
+      "kecamatan": "Jatinegara",
+      "lat": -6.2310,
+      "lon": 106.8630,
+      "elevation_m": 4.1,
+      "population": 32100,
+      "predictions": {
+        "6h": {"probability": 0.79, "risk_level": "Siaga"},
+        "12h": {"probability": 0.74, "risk_level": "Siaga"},
+        "24h": {"probability": 0.66, "risk_level": "Siaga"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.26, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.71, "importance": 0.19, "direction": "up"},
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.18, "direction": "up"},
+        {"feature": "drainage_density", "value": 2.1, "importance": 0.10, "direction": "down"},
+        {"feature": "impervious_surface_ratio", "value": 0.84, "importance": 0.08, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Bukit Duri",
+      "kecamatan": "Tebet",
+      "lat": -6.2280,
+      "lon": 106.8520,
+      "elevation_m": 5.8,
+      "population": 21400,
+      "predictions": {
+        "6h": {"probability": 0.71, "risk_level": "Siaga"},
+        "12h": {"probability": 0.68, "risk_level": "Siaga"},
+        "24h": {"probability": 0.59, "risk_level": "Siaga"}
+      },
+      "top_factors": [
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.24, "direction": "up"},
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.22, "direction": "up"},
+        {"feature": "distance_to_ciliwung", "value": 180, "importance": 0.14, "direction": "up"},
+        {"feature": "historical_flood_frequency_5y", "value": 8, "importance": 0.11, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.45, "importance": 0.09, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Pengadegan",
+      "kecamatan": "Pancoran",
+      "lat": -6.2480,
+      "lon": 106.8470,
+      "elevation_m": 5.2,
+      "population": 18900,
+      "predictions": {
+        "6h": {"probability": 0.64, "risk_level": "Siaga"},
+        "12h": {"probability": 0.61, "risk_level": "Siaga"},
+        "24h": {"probability": 0.54, "risk_level": "Siaga"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.25, "direction": "up"},
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.18, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.51, "importance": 0.13, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.79, "importance": 0.10, "direction": "up"},
+        {"feature": "drainage_density", "value": 2.6, "importance": 0.08, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Rawajati",
+      "kecamatan": "Pancoran",
+      "lat": -6.2540,
+      "lon": 106.8410,
+      "elevation_m": 5.5,
+      "population": 17200,
+      "predictions": {
+        "6h": {"probability": 0.58, "risk_level": "Siaga"},
+        "12h": {"probability": 0.55, "risk_level": "Siaga"},
+        "24h": {"probability": 0.49, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.24, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.41, "importance": 0.16, "direction": "up"},
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.15, "direction": "up"},
+        {"feature": "katulangan_water_level_lag_6h", "value": 198.0, "importance": 0.10, "direction": "up"},
+        {"feature": "drainage_density", "value": 3.0, "importance": 0.07, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Cipinang Melayu",
+      "kecamatan": "Makasar",
+      "lat": -6.2620,
+      "lon": 106.8980,
+      "elevation_m": 8.4,
+      "population": 24800,
+      "predictions": {
+        "6h": {"probability": 0.51, "risk_level": "Siaga"},
+        "12h": {"probability": 0.48, "risk_level": "Waspada"},
+        "24h": {"probability": 0.42, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.26, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.18, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.73, "importance": 0.12, "direction": "up"},
+        {"feature": "historical_flood_frequency_5y", "value": 6, "importance": 0.10, "direction": "up"},
+        {"feature": "drainage_density", "value": 2.8, "importance": 0.07, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Pejaten Timur",
+      "kecamatan": "Pasar Minggu",
+      "lat": -6.2790,
+      "lon": 106.8400,
+      "elevation_m": 9.1,
+      "population": 19500,
+      "predictions": {
+        "6h": {"probability": 0.46, "risk_level": "Waspada"},
+        "12h": {"probability": 0.43, "risk_level": "Waspada"},
+        "24h": {"probability": 0.38, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.27, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.19, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.22, "importance": 0.11, "direction": "down"},
+        {"feature": "impervious_surface_ratio", "value": 0.68, "importance": 0.09, "direction": "up"},
+        {"feature": "historical_flood_frequency_5y", "value": 5, "importance": 0.08, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Kebon Baru",
+      "kecamatan": "Tebet",
+      "lat": -6.2350,
+      "lon": 106.8590,
+      "elevation_m": 6.2,
+      "population": 22300,
+      "predictions": {
+        "6h": {"probability": 0.42, "risk_level": "Waspada"},
+        "12h": {"probability": 0.39, "risk_level": "Waspada"},
+        "24h": {"probability": 0.34, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.25, "direction": "up"},
+        {"feature": "manggarai_water_level", "value": 745.0, "importance": 0.16, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.71, "importance": 0.12, "direction": "up"},
+        {"feature": "drainage_density", "value": 3.2, "importance": 0.08, "direction": "down"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.31, "importance": 0.07, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Cawang",
+      "kecamatan": "Kramat Jati",
+      "lat": -6.2470,
+      "lon": 106.8730,
+      "elevation_m": 6.8,
+      "population": 26100,
+      "predictions": {
+        "6h": {"probability": 0.39, "risk_level": "Waspada"},
+        "12h": {"probability": 0.36, "risk_level": "Waspada"},
+        "24h": {"probability": 0.32, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.26, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.17, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.81, "importance": 0.13, "direction": "up"},
+        {"feature": "historical_flood_frequency_5y", "value": 4, "importance": 0.08, "direction": "up"},
+        {"feature": "drainage_density", "value": 2.9, "importance": 0.06, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Duren Tiga",
+      "kecamatan": "Pancoran",
+      "lat": -6.2580,
+      "lon": 106.8350,
+      "elevation_m": 6.5,
+      "population": 16800,
+      "predictions": {
+        "6h": {"probability": 0.34, "risk_level": "Waspada"},
+        "12h": {"probability": 0.32, "risk_level": "Waspada"},
+        "24h": {"probability": 0.28, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.27, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.69, "importance": 0.14, "direction": "up"},
+        {"feature": "drainage_density", "value": 3.4, "importance": 0.10, "direction": "down"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.18, "importance": 0.08, "direction": "down"},
+        {"feature": "historical_flood_frequency_5y", "value": 3, "importance": 0.06, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Cililitan",
+      "kecamatan": "Kramat Jati",
+      "lat": -6.2620,
+      "lon": 106.8650,
+      "elevation_m": 7.8,
+      "population": 19200,
+      "predictions": {
+        "6h": {"probability": 0.29, "risk_level": "Waspada"},
+        "12h": {"probability": 0.27, "risk_level": "Waspada"},
+        "24h": {"probability": 0.24, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.28, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.18, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.74, "importance": 0.11, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.12, "importance": 0.07, "direction": "down"},
+        {"feature": "drainage_density", "value": 3.1, "importance": 0.06, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Balekambang",
+      "kecamatan": "Kramat Jati",
+      "lat": -6.2680,
+      "lon": 106.8580,
+      "elevation_m": 7.2,
+      "population": 14700,
+      "predictions": {
+        "6h": {"probability": 0.26, "risk_level": "Waspada"},
+        "12h": {"probability": 0.24, "risk_level": "Waspada"},
+        "24h": {"probability": 0.21, "risk_level": "Waspada"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.29, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.19, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.70, "importance": 0.10, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.15, "importance": 0.07, "direction": "down"},
+        {"feature": "historical_flood_frequency_5y", "value": 2, "importance": 0.05, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Batu Ampar",
+      "kecamatan": "Kramat Jati",
+      "lat": -6.2710,
+      "lon": 106.8690,
+      "elevation_m": 7.5,
+      "population": 17900,
+      "predictions": {
+        "6h": {"probability": 0.22, "risk_level": "Waspada"},
+        "12h": {"probability": 0.20, "risk_level": "Waspada"},
+        "24h": {"probability": 0.18, "risk_level": "Aman"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.30, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.66, "importance": 0.13, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.16, "direction": "up"},
+        {"feature": "drainage_density", "value": 3.5, "importance": 0.09, "direction": "down"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.10, "importance": 0.06, "direction": "down"}
+      ]
+    },
+    {
+      "name": "Halim Perdanakusuma",
+      "kecamatan": "Makasar",
+      "lat": -6.2660,
+      "lon": 106.8910,
+      "elevation_m": 9.5,
+      "population": 12400,
+      "predictions": {
+        "6h": {"probability": 0.18, "risk_level": "Aman"},
+        "12h": {"probability": 0.16, "risk_level": "Aman"},
+        "24h": {"probability": 0.14, "risk_level": "Aman"}
+      },
+      "top_factors": [
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.32, "direction": "up"},
+        {"feature": "elevation_below_3m_ratio", "value": 0.05, "importance": 0.18, "direction": "down"},
+        {"feature": "drainage_density", "value": 4.1, "importance": 0.13, "direction": "down"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.10, "direction": "up"},
+        {"feature": "impervious_surface_ratio", "value": 0.58, "importance": 0.07, "direction": "up"}
+      ]
+    },
+    {
+      "name": "Ragunan",
+      "kecamatan": "Pasar Minggu",
+      "lat": -6.3110,
+      "lon": 106.8240,
+      "elevation_m": 12.3,
+      "population": 22100,
+      "predictions": {
+        "6h": {"probability": 0.12, "risk_level": "Aman"},
+        "12h": {"probability": 0.11, "risk_level": "Aman"},
+        "24h": {"probability": 0.09, "risk_level": "Aman"}
+      },
+      "top_factors": [
+        {"feature": "elevation_below_3m_ratio", "value": 0.02, "importance": 0.34, "direction": "down"},
+        {"feature": "rainfall_72h_cumulative", "value": 187.3, "importance": 0.21, "direction": "up"},
+        {"feature": "drainage_density", "value": 4.5, "importance": 0.14, "direction": "down"},
+        {"feature": "impervious_surface_ratio", "value": 0.42, "importance": 0.09, "direction": "up"},
+        {"feature": "rainfall_24h_cumulative", "value": 89.2, "importance": 0.08, "direction": "up"}
+      ]
+    }
+  ]
+}
