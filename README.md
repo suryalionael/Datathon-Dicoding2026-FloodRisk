@@ -1,5 +1,9 @@
 # Jakarta Flood Risk Prediction — Phase 1 MVP
 
+> **Status Pengembangan: Work In Progress (Fase Proposal)**  
+> Repository ini saat ini berada di Fase Proposal Dicoding AI Impact Challenge 2026.  
+> Implementasi kode (model, API Azure Functions, dan dashboard Azure Static Web Apps) masih dalam pengembangan aktif dan belum lengkap.
+
 XGBoost-based flood risk prediction for 15 pilot kelurahan in South and East Jakarta. Outputs calibrated flood probabilities at 6, 12, and 24-hour horizons with SHAP explainability for BPBD operators.
 
 ---
@@ -44,6 +48,24 @@ flood_risk_mvp/
 ├── predict.py                     # inference CLI
 └── requirements.txt
 ```
+## Azure Architecture (Draft)
+
+This project is designed to run end-to-end on Microsoft Azure (currently in draft, WIP for proposal phase):
+
+- **Azure Functions (HTTP trigger)**  
+  - Serves a REST API endpoint `/api/predict` that loads the trained XGBoost models (`flood_xgb_{6,12,24}h.joblib`) and returns calibrated flood probabilities for a given kelurahan and timestamp.  
+  - Code scaffold lives in `azure-function/` (binding configuration and handler are under active development).
+
+- **Azure Static Web Apps**  
+  - Hosts a static dashboard (React/JS) located in `static-web-app/`.  
+  - The dashboard calls the Azure Functions API to display 6/12/24-hour flood risk levels (Aman, Waspada, Siaga, Bahaya) for the 15 pilot kelurahan.  
+  - Deployment target: Azure Static Web Apps Free tier with GitHub Actions for CI/CD.
+
+- **(Planned) Azure Storage**  
+  - Optional blob storage for archiving daily prediction outputs and logs for later analysis and model monitoring.
+
+> During the Dicoding AI Impact Challenge 2026 proposal phase, the Azure deployment is being implemented and iterated. Public URLs for the Static Web App and Function API will be added here once stable.
+---
 
 ### Data sources
 
@@ -196,15 +218,14 @@ The threshold calibration step (`_calibrate_threshold`) sweeps the decision boun
 
 ---
 
-## Roadmap
+## Project Status
 
-- **Phase 2**: Add ECMWF/GFS NWP rainfall forecast as input feature (extend lead time to 48–72h)
-- **Phase 3**: Expand to all 267 kelurahan in DKI Jakarta
-- **Phase 4**: Real-time streaming pipeline (Kafka → feature store → online inference)
-- **Phase 5**: Integration with PetaJakarta / JAKI app for public-facing alerts
+This repository is currently in **Proposal Phase** for the Dicoding AI Impact Challenge 2026:
 
----
+- Core Python package (`flood_risk/`) for data processing and model training is in early MVP stage.  
+- Azure Functions API (`azure-function/`) and Static Web App dashboard (`static-web-app/`) are under active development and not feature-complete.  
+- Synthetic data stubs are used by default so the pipeline can be executed without access to BMKG / Jakarta Open Data credentials.  
+- Model performance targets and evaluation protocol are defined, but final 2018–2024 retraining and metric reporting for all horizons are still in progress.
 
-## License
+Feedback and issue reports are welcome while the implementation is being completed during the competition timeline.
 
-MIT
